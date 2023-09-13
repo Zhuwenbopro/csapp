@@ -1,0 +1,127 @@
+***********************
+The CS:APP Data Lab
+Directions to Students
+***********************
+
+Your goal is to modify your copy of bits.c so that it passes all the
+tests in btest without violating any of the coding guidelines.
+我要编写、修改 bits.c 文件通过 btest 
+
+*********
+0. Files:
+*********
+
+Makefile	- Makes btest, fshow, and ishow
+README		- This file
+bits.c		- 你需要修改并提交的文件
+bits.h		- 头文件
+btest.c		- btest 主程序
+  btest.h	- 用于 build btest
+  decl.c	- 用于 build btest
+  tests.c       - 用于 build btest
+  tests-header.c- 用于build btest
+dlc*		- Rule checking compiler binary (data lab compiler)	 
+driver.pl*	- Driver program that uses btest and dlc to autograde bits.c
+Driverhdrs.pm   - Header file for optional "Beat the Prof" contest
+fshow.c		- Utility for examining floating-point representations
+ishow.c		- Utility for examining integer representations
+
+***********************************************************
+1. 编写 bits.c 文件并用 dlc 检查
+***********************************************************
+
+IMPORTANT: 在开始前仔细阅读 bits.c 文档指导部分，里面有编码规则。
+
+使用下面语句自动检查你的 bits.c 是否符合编码规则。
+
+       unix> ./dlc bits.c
+
+如果你的代码没有问题 dlc 什么都不会返回。否则它会打印出错误信息。
+
+使用下面语句，可以让 dlc 打印出每个函数的操作符号数量。
+
+    	unix> ./dlc -e bits.c  
+
+一旦，你的 bits.c 合格了，你可以用检错程序 ./btest 测试它。
+
+*********************
+2. 用 btest 测试
+*********************
+
+Makefile 文件将你的 bits.c 文件编译成为 btest。
+
+编译并允许 btest 程序，使用以下代码:
+
+    unix> make btest
+    unix> ./btest [optional cmd line args]
+
+每次你改变你的 bits.c 文件你都需要重新编译 btest，并且每次重新编译
+你都要清除之前的旧版本残留数据。
+
+    unix> make clean
+    unix> make btest
+
+btest 会运行上百万的用例来测试你的代码中的函数。btest 会测试各种极端用例，
+比如说 Tmin、0、inf 以及 denormalized and normalized numbers 之间的边界等。
+当 btest 检查出你的函数中的错时，它会打印出失败的用例、错误的结果、期望结果，
+并结束那个函数的测试。
+
+以下是 btest 的可选命令：
+
+  unix> ./btest -h
+  Usage: ./btest [-hg] [-r <n>] [-f <name> [-1|-2|-3 <val>]*] [-T <time limit>]
+    -1 <val>  Specify first function argument
+    -2 <val>  Specify second function argument
+    -3 <val>  Specify third function argument
+    -f <name> Test only the named function
+    -g        Format output for autograding with no error messages
+    -h        Print this message
+    -r <n>    Give uniform weight of n for all problems
+    -T <lim>  Set timeout limit to lim
+
+Examples:
+
+  Test all functions for correctness and print out error messages:
+  unix> ./btest
+
+  Test all functions in a compact form with no error messages:
+  unix> ./btest -g
+
+  Test function foo for correctness:
+  unix> ./btest -f foo
+
+  Test function foo for correctness with specific arguments:
+  unix> ./btest -f foo -1 27 -2 0xf
+
+
+btest 不会检查你的是否按照规范编码，请使用 dlc 来检查规范
+
+*******************
+3. 帮助程序
+*******************
+
+我们编写了 ishow 和 fshow 程序帮助你解码 integer 和 floating point 表示。
+两个程序可接受一个十进制或十六进制参数。想要 build 这两个程序，输入：
+
+    unix> make
+
+Example usages:
+
+    unix> ./ishow 0x27
+    Hex = 0x00000027,	Signed = 39,	Unsigned = 39
+
+    unix> ./ishow 27
+    Hex = 0x0000001b,	Signed = 27,	Unsigned = 27
+
+    unix> ./fshow 0x15213243
+    Floating point value 3.255334057e-26
+    Bit Representation 0x15213243, sign = 0, exponent = 0x2a, fraction = 0x213243
+    Normalized.  +1.2593463659 X 2^(-85)
+
+    linux> ./fshow 15213243
+    Floating point value 2.131829405e-38
+    Bit Representation 0x00e822bb, sign = 0, exponent = 0x01, fraction = 0x6822bb
+    Normalized.  +1.8135598898 X 2^(-126)
+
+
+
